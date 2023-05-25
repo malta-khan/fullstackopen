@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Button = ({label, clickHandler})=> <button onClick={clickHandler}>{label}</button>
-const StatisticsLine = ({label, value})=> <div>{label} {value}</div>
+const StatisticsLine = ({label, value})=> <tr><td>{label}</td><td>{value}</td></tr>
 const Statistics = ({data})=>{
   if(data.good === 0 && data.neutral === 0 && data.bad === 0){
     return <div>
@@ -15,12 +15,14 @@ const Statistics = ({data})=>{
   let positive = (data.good / total * 100).toFixed(1).toString() + "%";
  return <div>
   <h1>statistics</h1>
+  <table>
   <StatisticsLine label={"good"} value={data.good}></StatisticsLine>
   <StatisticsLine label={"neutral"} value={data.neutral}></StatisticsLine>
   <StatisticsLine label={"bad"} value={data.bad}></StatisticsLine>
   <StatisticsLine label={"total"} value={total}></StatisticsLine>
   <StatisticsLine label={"average"} value={average}></StatisticsLine>
   <StatisticsLine label={"positive"} value={positive}></StatisticsLine>
+  </table>
  </div>
 }
 
