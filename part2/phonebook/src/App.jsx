@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Form from './Form'
 import Persons from './Persons'
-import axios from 'axios'
+import Notification from './Notification'
 import { useEffect } from 'react'
 import contactServer from './contactServer'
 
@@ -9,6 +9,7 @@ const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [notification, setNotification] = useState(null)
   useEffect(()=>{
     contactServer.getAll().then(response => setPersons(response))
   },[])
@@ -26,6 +27,7 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response))
         clearInputs();
+        notify(`added new contact ${newName}`)
       })
   }
 
@@ -34,7 +36,13 @@ const App = () => {
       let newPersons = persons.filter(person => person.id !== data.id);
       contactServer
       .deleteContact(data.id)
-      .then(setPersons(newPersons))
+      .then(()=>{
+        setPersons(newPersons)
+        notify(`removed ${data.name} from contacts`)
+      })
+      .catch(err =>{
+        notify(`error while removing ${data.name}. Maybe it is already removed?`)
+      })
     }
   }
 
@@ -61,10 +69,16 @@ const App = () => {
     setNewName("")
     setNewNumber("")
   }
+
+  function notify(message){
+    setNotification(message);
+    setTimeout(()=>{setNotification(null)}, 5000)
+  }
   return (
     <div>
       <h2>Phonebook</h2>
       <Form  handlers= {{addPerson, newName, setNewName, newNumber, setNewNumber}}></Form>
+      <Notification message={notification}></Notification>
       <Persons persons={persons} deleteHandler={removePerson}></Persons>
     </div>
   )
