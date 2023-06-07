@@ -1,6 +1,6 @@
 function Notification({message}) {
     if(message){
-        return <div>{message}</div>
+        return <div style={{color: message.color}}>{message.text}</div>
     }
 }
 
