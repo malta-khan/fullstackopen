@@ -27,7 +27,7 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response))
         clearInputs();
-        notify({text: `added new contact ${newName}`, color: "green"})
+        notify({text: `SUCCESS: added new contact ${newName}`, color: "green"})
       })
   }
 
@@ -38,10 +38,10 @@ const App = () => {
       .deleteContact(data.id)
       .then(()=>{
         setPersons(newPersons)
-        notify({text: `removed ${data.name} from contacts`, color: "green"})
+        notify({text: `SUCCESS: removed ${data.name} from contacts`, color: "green"})
       })
       .catch(err =>{
-        notify({text: `error while removing ${data.name}. Maybe it is already removed?`, color: "red"})
+        notify({text: `FAILED: error while removing ${data.name}. Maybe it is already removed?`, color: "red"})
       })
     }
   }
