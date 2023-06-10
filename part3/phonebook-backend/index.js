@@ -1,8 +1,12 @@
 let data = require("./data.json")
 const express = require("express")
+const morgan = require("morgan")
 const uniqid = require("uniqid")
 const app = express()
 
+app.use(express.json())
+morgan.token('jsonData', (req, res)=>{ return JSON.stringify(req.body)})
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :jsonData"))
 app.get("/",(request, response)=>{
     let html = `
     <div>Nothing much on this page, here are some links to other pages</div>
@@ -15,12 +19,18 @@ app.get("/api/persons",(request, response)=>{
     response.send(data)
 })
 
-app.use(express.json())
 app.post("/api/persons",(request, response)=>{
-    let newPerson = request.body;
-    newPerson.id = uniqid()
-    data = data.concat(newPerson)
-    response.end()
+    let newPerson = {...request.body};
+    let duplicate = data.find(person => person.name === newPerson.name);
+    if(duplicate){
+        response.status(400).end(`${newPerson.name} is already added to the phonebook.`)
+    }else if(!newPerson.name || !newPerson.number){
+        response.status(400).end("Missing name or number")
+    }else{
+        newPerson.id = uniqid()
+        data = data.concat(newPerson)
+        response.end(`${newPerson.name} added to phonebook successfuly`)
+    }
 })
 
 app.get("/api/persons/:id",(request, response)=>{
