@@ -1,0 +1,17 @@
+###
+DELETE  http://localhost:3001/api/persons/4
+
+###
+GET http://localhost:3001/api/persons/
+
+###
+GET http://localhost:3001/api/persons/3
+
+###
+POST http://localhost:3001/api/persons/
+content-type: application/json
+
+{
+    "name": "Jon Snow",
+    "number": "0362-2340-63262"
+}
