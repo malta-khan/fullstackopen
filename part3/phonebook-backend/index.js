@@ -3,10 +3,13 @@ const express = require("express")
 const morgan = require("morgan")
 const uniqid = require("uniqid")
 const app = express()
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 morgan.token('jsonData', (req, res)=>{ return JSON.stringify(req.body)})
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :jsonData"))
+
 app.get("/",(request, response)=>{
     let html = `
     <div>Nothing much on this page, here are some links to other pages</div>
@@ -29,7 +32,7 @@ app.post("/api/persons",(request, response)=>{
     }else{
         newPerson.id = uniqid()
         data = data.concat(newPerson)
-        response.end(`${newPerson.name} added to phonebook successfuly`)
+        response.send(newPerson)
     }
 })
 
@@ -58,7 +61,7 @@ app.get("/info",(request, response)=>{
     response.send(html)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}/`)
 })
