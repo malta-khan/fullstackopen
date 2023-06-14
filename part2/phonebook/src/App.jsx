@@ -59,8 +59,9 @@ const App = () => {
       contactServer
       .updateContact(data)
       .then(() => {
-        setPersons(newPersons)
+        setPersons(newPersons);
         clearInputs();
+        notify({text: `SUCCESS: Updated ${data.name}'s number to ${data.number}`, color: "green"})
       })
     }
   }
