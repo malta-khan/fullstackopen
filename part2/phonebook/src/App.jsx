@@ -76,11 +76,14 @@ const App = () => {
     setTimeout(()=>{setNotification(null)}, 5000)
   }
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <div className='min-h-screen flex flex-col items-center'>
+      <div className='mt-6 rounded-lg shadow-md max-w-lg w-full border'>
+      <h2 className='text-2xl font-mono p-4'>fullstack-phonebook</h2>
       <Form  handlers= {{addPerson, newName, setNewName, newNumber, setNewNumber}}></Form>
       <Notification message={notification}></Notification>
       <Persons persons={persons} deleteHandler={removePerson}></Persons>
+      <div className='bg-slate-200 text-slate-800 font-semibold text-sm p-1 text-center mt-5'>^project idea from fullstackopen ^coded by malta-khan </div>
+      </div>
     </div>
   )
 }
