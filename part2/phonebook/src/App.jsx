@@ -29,6 +29,10 @@ const App = () => {
         clearInputs();
         notify({text: `SUCCESS: added new contact ${newName}`, color: "green"})
       })
+      .catch(error=>{
+        let message = error.response.data.error
+        notify({text: message, color: "red"})
+      })
   }
 
   function removePerson(data){
@@ -41,7 +45,8 @@ const App = () => {
         notify({text: `SUCCESS: removed ${data.name} from contacts`, color: "green"})
       })
       .catch(err =>{
-        notify({text: `FAILED: error while removing ${data.name}. Maybe it is already removed?`, color: "red"})
+        console.log(err)
+        notify({text: err.response.data, color: "red"})
       })
     }
   }
@@ -62,6 +67,10 @@ const App = () => {
         setPersons(newPersons);
         clearInputs();
         notify({text: `SUCCESS: Updated ${data.name}'s number to ${data.number}`, color: "green"})
+      })
+      .catch(error=>{
+        let message = error.response.data.error
+        notify({text: message, color: "red"})
       })
     }
   }
