@@ -74,3 +74,44 @@ describe("totalLikes", () => {
     expect(listHelper.totalLikes(input)).toEqual(36);
   });
 });
+
+describe("favouriteBlog", ()=>{
+
+  test("returns null when no blogs in array",()=>{
+    const input = [];
+    expect(listHelper.favoriteBlog(input)).toEqual(null)
+  })
+
+  test("returns blog when only one blog in array",()=>{
+    const input = [blogs[0]];
+    expect(listHelper.favoriteBlog(input)).toEqual(blogs[0])
+  })
+
+  test("returns blog with most likes when more than one blog in array",()=>{
+    const input = blogs;
+    expect(listHelper.favoriteBlog(input)).toEqual(blogs[2])
+  })
+
+})
+
+describe("mostBlogs",()=>{
+
+  test("returns null when no blogs", ()=>{
+    const input = [];
+    expect(listHelper.mostBlogs(input)).toEqual(null)
+  })
+
+  test("works with one blog in array", ()=>{
+    const input = [blogs[0]];
+    expect(listHelper.mostBlogs(input)).toEqual(input[0])
+  })
+
+  test("works with more than one blogs in array", ()=>{
+    const input = [...blogs];
+    expect(listHelper.mostBlogs(input)).toEqual({
+      author: "Robert C. Martin",
+      blogs: 3
+    })
+  })
+
+})
